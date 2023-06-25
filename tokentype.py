@@ -1,6 +1,7 @@
 from enum import Enum
 
 class TokenType(Enum):
+
     # Single-character tokens.
     LEFT_PAREN = '(',
     RIGHT_PAREN = ')',
@@ -29,6 +30,7 @@ class TokenType(Enum):
     IDENTIFIER = 'identifier'
     STRING = 'str'
     NUMBER = 'num'
+
     # Keywords.
     AND = 'and'
     CLASS = 'class'
