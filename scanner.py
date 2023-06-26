@@ -1,5 +1,6 @@
 from token import Token
 from tokentype import TokenType
+from lox import Lox
 
 class Scanner:
 
@@ -45,6 +46,18 @@ class Scanner:
             if self.match('/'):
                 while self.peek() != '\n' and not self.is_at_end():
                     self.advance()
-                else:
-                    self.add_token(SLASH)
+            else:
+                self.add_token(SLASH)
+        elif c ==' ' or c == '\r' or c == '\t':
+            pass
+        elif c == '\n':
+            self.line += 1
+        elif c == '"':
+            self.string()
+        else:
+            if self.is_digit(c): self.number()
+            elif self.is_alpha(c): self.identifier()
+        else: Lox.error(line, 'Unexpected character.')
+
+
 
