@@ -60,4 +60,9 @@ class Scanner:
         else: Lox.error(line, 'Unexpected character.')
 
 
+    def identifier() -> None:
+        while self.is_alpha_numeric(self.peek()):
+            self.advance()
+
+   
 
