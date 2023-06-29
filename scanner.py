@@ -59,8 +59,18 @@ class Scanner:
             elif self.is_alpha(c): self.identifier()
             else: Lox.error(line, 'Unexpected character.')
 
+    def advance(self) -> str:
+        current += 1
+        return self.source[self.current - 1]
 
-    def identifier() -> None:
+    def add_token(self, token_type: TokenType, literal = None) -> None:
+        text: str = self.source[self.start : self.current]
+        self.tokens.append( Token(token_type, text, literal, line))
+
+    def is_at_end(self) -> bool:
+        return self.current >= len(self.source)
+
+    def identifier(self) -> None:
         while self.is_alpha_numeric(self.peek()):
             self.advance()
         text: str = self.source[self.start : self.current]
@@ -69,8 +79,7 @@ class Scanner:
             token_type = IDENTIFIER
         self.add_token(token_type)
 
-    
-    def number() -> None:
+    def number(self) -> None:
         while self.is_digit(self.peek()):
             self.advance()
         if self.peek() == '.' and self.is_digit(self.peek_next()):
