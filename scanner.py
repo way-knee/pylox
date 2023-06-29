@@ -10,6 +10,23 @@ class Scanner:
         self.start = 0
         self.current = 0
         self.line = 1
+        self.keywords = {
+                'and': AND,
+                'class': CLASS,
+                'else': ELSE,
+                'false': FALSE,
+                'for': FOR,
+                'fun': FUN,
+                'if': IF,
+                'nil': NIL,
+                'or': OR,
+                'print': PRINT,
+                'return': RETURN,
+                'super': SUPER,
+                'this': THIS,
+                'true': TRUE,
+                'var': VAR,
+                'while': WHILE}
 
     def scan_tokens() -> list:
         while not self.is_at_end():
@@ -57,7 +74,7 @@ class Scanner:
         else:
             if self.is_digit(c): self.number()
             elif self.is_alpha(c): self.identifier()
-            else: Lox.error(line, 'Unexpected character.')
+            else: Lox.error(self.line, 'Unexpected character.')
 
     def advance(self) -> str:
         current += 1
@@ -99,7 +116,7 @@ class Scanner:
         while self.is_alpha_numeric(self.peek()):
             self.advance()
         text: str = self.source[self.start : self.current]
-        token_type: TokenType = self.keywords.get(text)
+        token_type: TokenType = self.keywords[text]
         if token_type == None:
             token_type = IDENTIFIER
         self.add_token(token_type)
@@ -112,3 +129,14 @@ class Scanner:
             while self.is_digit(self.peek()):
                 self.advance()
         self.add_token(NUMBER, float(self.source[self.start : self.current]))
+
+    def string(self) -> None:
+        while self.peek() != '"' and not self.is_at_end():
+            if self.peek() == '\n': self.line += 1
+            self.advance()
+        if is_at_end:
+            Lox.error(self,line, 'Unterminated string.')
+            return
+        self.advance()
+        val: str = self.source[self.start + 1 : self.current - 1]
+        self.add_token(STRING, val)
