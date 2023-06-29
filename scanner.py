@@ -57,7 +57,7 @@ class Scanner:
         else:
             if self.is_digit(c): self.number()
             elif self.is_alpha(c): self.identifier()
-        else: Lox.error(line, 'Unexpected character.')
+            else: Lox.error(line, 'Unexpected character.')
 
 
     def identifier() -> None:
@@ -70,4 +70,11 @@ class Scanner:
         self.add_token(token_type)
 
     
-
+    def number() -> None:
+        while self.is_digit(self.peek()):
+            self.advance()
+        if self.peek() == '.' and self.is_digit(self.peek_next()):
+            self.advance()
+            while self.is_digit(self.peek()):
+                self.advance()
+        self.add_token(NUMBER, float(self.source[self.start : self.current]))
