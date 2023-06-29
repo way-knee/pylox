@@ -84,6 +84,17 @@ class Scanner:
         if self.current + 1 >= len(self.source): return '\0'
         return self.source[self.current + 1]
 
+    def is_alpha(self, s: str) -> bool:
+        return ((s >= 'a' and s <= 'z') or
+                (s >= 'A' and s <= 'Z') or
+                (s == '_'))
+
+    def is_digit(self, s: str) -> bool:
+        return (s >= '0' and s <= '9')
+
+    def is_alpha_numeric(self, s: str) -> bool:
+        return (self.is_alpha(s) or self.is_digit(s))
+
     def identifier(self) -> None:
         while self.is_alpha_numeric(self.peek()):
             self.advance()
