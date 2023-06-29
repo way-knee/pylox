@@ -63,6 +63,11 @@ class Scanner:
     def identifier() -> None:
         while self.is_alpha_numeric(self.peek()):
             self.advance()
+        text: str = self.source[self.start : self.current]
+        token_type: TokenType = self.keywords.get(text)
+        if token_type == None:
+            token_type = IDENTIFIER
+        self.add_token(token_type)
 
-   
+    
 
