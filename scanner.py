@@ -70,6 +70,20 @@ class Scanner:
     def is_at_end(self) -> bool:
         return self.current >= len(self.source)
 
+    def match(self, expected: str) -> bool:
+        if self.is_at_end(): return False
+        if self.source[current] != expected: return False
+        self.current += 1
+        return True
+
+    def peek(self) -> str:
+        if self.is_at_end(): return '\0'
+        return self.source[self.current]
+
+    def peek_next(self) -> str:
+        if self.current + 1 >= len(self.source): return '\0'
+        return self.source[self.current + 1]
+
     def identifier(self) -> None:
         while self.is_alpha_numeric(self.peek()):
             self.advance()
