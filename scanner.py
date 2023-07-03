@@ -1,6 +1,6 @@
 from token import Token
 from tokentype import TokenType
-from lox import Lox
+import lox
 
 class Scanner:
 
@@ -32,7 +32,7 @@ class Scanner:
         while not self.is_at_end():
             self.start = self.current
             self.scan_token()
-        self.tokens.append(Token(EOF, '', None, self.line))
+        self.tokens.append(Token(TokenType.EOF, '', None, self.line))
         return self.tokens
 
     def scan_token(self) -> None:
@@ -74,7 +74,7 @@ class Scanner:
         else:
             if self.is_digit(c): self.number()
             elif self.is_alpha(c): self.identifier()
-            else: Lox.error(self.line, 'Unexpected character.')
+            else: lox.error(self.line, 'Unexpected character.')
 
     def advance(self) -> str:
         self.current += 1
@@ -134,9 +134,9 @@ class Scanner:
         while self.peek() != '"' and not self.is_at_end():
             if self.peek() == '\n': self.line += 1
             self.advance()
-        if self.is_at_end:
-            Lox.error(self.line, 'Unterminated string.')
+        if self.is_at_end():
+            lox.error(self.line, 'Unterminated string.')
             return
         self.advance()
         val: str = self.source[self.start + 1 : self.current - 1]
-        self.add_token(STRING, val)
+        self.add_token(TokenType.STRING, val)
