@@ -3,7 +3,7 @@ import sys
 expressions = [
     ['Assign', 'name: Token, value: Expr'],
     ['Binary', 'left: Expr, operator: Token, right: Expr'],
-    ['Call', 'callee: Expr, paren: Token, arguments: list'],
+    ['Call', 'callee: Expr, paren: Token, arguments: list[Expr]'],
     ['Get', 'object: Expr, name: Token'],
     ['Grouping', 'expression: Expr'],
     ['Literal', 'value: object'],
@@ -15,11 +15,24 @@ expressions = [
     ['Variable', 'name: Token']
 ]
 
+statements = [
+    ['Block', 'statements: list[Stmt]'],
+    ['Expression', 'expression: Expr'],
+    ['Function', 'name: Token, params: list[Token], body: list[Stmt]'],
+    ['Class', 'name: Token, superclass: Expr.Variable, methods: list[Function]'],
+    ['If', 'condition: Expr, thenBranch: Stmt, elseBranch: Stmt'],
+    ['Print', 'expression: Expr'],
+    ['Return', 'keyword: Token, value: Expr'],
+    ['Var', 'name: Token, initializer: Expr'],
+    ['While', 'condition: Expr, body: Stmt']
+]
+
 TAB = '    '
 args = sys.argv
 
 def main():
     define_ast('Expr', expressions)
+    define_ast('Stmt', statements)
 
 
 if __name__ == '__main__':
@@ -35,6 +48,8 @@ def define_ast(base_name: str, types: list) -> None:
     with open(path, 'w') as output_file:
         lines = []
         lines.append('from token import Token\n\n')
+        if base_name == 'Stmt':
+            lines.append('import Expr\n\n')
         lines.append(f'class {base_name}:\n')
         lines.append(f'{TAB}pass\n\n')
 
