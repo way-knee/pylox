@@ -1,9 +1,18 @@
 import sys
 
-expressions = []
-TAB = '    '
+expressions = [
+    ['Binary', 'expr_left, token_operator, expr_right'],
+    ['Grouping', 'expr_expression'],
+    ['Literal', 'object_value'],
+    ['Unary', 'token_operator, expr_right'],
+]
 
+TAB = '    '
 args = sys.argv
+
+def main():
+    define_ast('Expr', expressions)
+
 
 if __name__ == '__main__':
     if len(args) != 2:
