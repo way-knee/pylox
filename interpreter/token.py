@@ -5,7 +5,7 @@ class Token:
     def __init__(self, 
                  tokentype: TokenType, 
                  lexeme: str, 
-                 literal, 
+                 literal: object,
                  line: int):
         self.tokentype = tokentype
         self.lexeme = lexeme
