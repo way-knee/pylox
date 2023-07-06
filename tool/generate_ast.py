@@ -1,10 +1,18 @@
 import sys
 
 expressions = [
-    ['Binary', 'expr_left, token_operator, expr_right'],
-    ['Grouping', 'expr_expression'],
-    ['Literal', 'object_value'],
-    ['Unary', 'token_operator, expr_right'],
+    ['Assign', 'name: Token, value: Expr'],
+    ['Binary', 'left: Expr, operator: Token, right: Expr'],
+    ['Call', 'callee: Expr, paren: Token, arguments: list'],
+    ['Get', 'object: Expr, name: Token'],
+    ['Grouping', 'expression: Expr'],
+    ['Literal', 'value: object'],
+    ['Logical', 'left: Expr, operator: Token, right: Expr'],
+    ['Set', '_object: Expr, name: Token, value: Expr'],
+    ['Super', 'keyword: Token, method: Token'],
+    ['This', 'keyword: Token'],
+    ['Unary', 'operator: Token, right: Expr'],
+    ['Variable', 'name: Token']
 ]
 
 TAB = '    '
@@ -26,6 +34,7 @@ def define_ast(base_name: str, types: list) -> None:
 
     with open(path, 'w') as output_file:
         lines = []
+        lines.append('from token import Token\n\n')
         lines.append(f'class {base_name}:\n')
         lines.append(f'{TAB}pass\n\n')
 
@@ -42,7 +51,7 @@ def define_type(lines: list, base_name: str, class_name: str, fields: str) -> No
     lines.append(f'{TAB}def __init__(self, {fields}):\n')
     fields_list = fields.split(', ')
     for field in fields_list:
-        lines.append(f'{TAB}{TAB}self.{field} = {field}\n')
+        lines.append(f'{TAB}{TAB}self.{field[:field.index(":")]} = {field[:field.index(":")]}\n')
     lines.append('\n')
 
 

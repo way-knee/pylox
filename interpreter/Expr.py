@@ -1,22 +1,65 @@
+from token import Token
+
 class Expr:
     pass
 
+class Assign(Expr):
+    def __init__(self, name: Token, value: Expr):
+        self.name = name
+        self.value = value
+
 class Binary(Expr):
-    def __init__(self, expr_left, token_operator, expr_right):
-        self.expr_left = expr_left
-        self.token_operator = token_operator
-        self.expr_right = expr_right
+    def __init__(self, left: Expr, operator: Token, right: Expr):
+        self.left = left
+        self.operator = operator
+        self.right = right
+
+class Call(Expr):
+    def __init__(self, callee: Expr, paren: Token, arguments: list):
+        self.callee = callee
+        self.paren = paren
+        self.arguments = arguments
+
+class Get(Expr):
+    def __init__(self, object: Expr, name: Token):
+        self.object = object
+        self.name = name
 
 class Grouping(Expr):
-    def __init__(self, expr_expression):
-        self.expr_expression = expr_expression
+    def __init__(self, expression: Expr):
+        self.expression = expression
 
 class Literal(Expr):
-    def __init__(self, object_value):
-        self.object_value = object_value
+    def __init__(self, value: object):
+        self.value = value
+
+class Logical(Expr):
+    def __init__(self, left: Expr, operator: Token, right: Expr):
+        self.left = left
+        self.operator = operator
+        self.right = right
+
+class Set(Expr):
+    def __init__(self, _object: Expr, name: Token, value: Expr):
+        self._object = _object
+        self.name = name
+        self.value = value
+
+class Super(Expr):
+    def __init__(self, keyword: Token, method: Token):
+        self.keyword = keyword
+        self.method = method
+
+class This(Expr):
+    def __init__(self, keyword: Token):
+        self.keyword = keyword
 
 class Unary(Expr):
-    def __init__(self, token_operator, expr_right):
-        self.token_operator = token_operator
-        self.expr_right = expr_right
+    def __init__(self, operator: Token, right: Expr):
+        self.operator = operator
+        self.right = right
+
+class Variable(Expr):
+    def __init__(self, name: Token):
+        self.name = name
 
