@@ -42,7 +42,7 @@ if __name__ == '__main__':
     output_dir = args[1]
 
 
-def define_ast(base_name: str, types: list) -> None:
+def define_ast(base_name: str, types: list[list]) -> None:
     path: str = output_dir + '/' + base_name + '.py'
 
     with open(path, 'w') as output_file:
@@ -50,13 +50,18 @@ def define_ast(base_name: str, types: list) -> None:
         lines.append('from token import Token\n\n')
         if base_name == 'Stmt':
             lines.append('import Expr\n\n')
+        define_visitor(lines, base_name, types)
+
         lines.append(f'class {base_name}:\n')
-        lines.append(f'{TAB}pass\n\n')
+        lines.append(f'{TAB}def accept(visitor: {base_name}Visitor):\n')
+        lines.append(f'{TAB}{TAB}raise NotImplementedError\n\n\n')
 
         for t in types:
             class_name = t[0]
             fields = t[1]
             define_type(lines, base_name, class_name, fields)
+            lines.append(f'{TAB}def accept(self, visitor: {base_name}Visitor):\n')
+            lines.append(f'{TAB}{TAB}return visitor.visit{t[0]}{base_name}\n\n\n')
         
         output_file.writelines(lines)
 
@@ -68,5 +73,13 @@ def define_type(lines: list, base_name: str, class_name: str, fields: str) -> No
     for field in fields_list:
         lines.append(f'{TAB}{TAB}self.{field[:field.index(":")]} = {field[:field.index(":")]}\n')
     lines.append('\n')
+
+
+def define_visitor(lines: list, base_name: str, types: list[list]):
+    lines.append(f'class {base_name}Visitor:\n')
+    for t in types:
+        lines.append(f'{TAB}def visit{t[0]}{base_name}({base_name.lower()}): raise NotImplementedError\n')
+    lines.append('\n\n')
+
 
 
