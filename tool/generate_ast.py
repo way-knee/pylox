@@ -61,7 +61,7 @@ def define_ast(base_name: str, types: list[list]) -> None:
             fields = t[1]
             define_type(lines, base_name, class_name, fields)
             lines.append(f'{TAB}def accept(self, visitor: {base_name}Visitor):\n')
-            lines.append(f'{TAB}{TAB}return visitor.visit_{t[0].lower()}_{base_name.lower()}\n\n\n')
+            lines.append(f'{TAB}{TAB}return visitor.visit_{t[0].lower()}_{base_name.lower()}(self)\n\n\n')
         
         output_file.writelines(lines)
 

@@ -24,7 +24,7 @@ class Block(Stmt):
         self.statements = statements
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_block_stmt
+        return visitor.visit_block_stmt(self)
 
 
 class Expression(Stmt):
@@ -32,7 +32,7 @@ class Expression(Stmt):
         self.expression = expression
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_expression_stmt
+        return visitor.visit_expression_stmt(self)
 
 
 class Function(Stmt):
@@ -42,7 +42,7 @@ class Function(Stmt):
         self.body = body
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_function_stmt
+        return visitor.visit_function_stmt(self)
 
 
 class Class(Stmt):
@@ -52,7 +52,7 @@ class Class(Stmt):
         self.methods = methods
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_class_stmt
+        return visitor.visit_class_stmt(self)
 
 
 class If(Stmt):
@@ -62,7 +62,7 @@ class If(Stmt):
         self.elseBranch = elseBranch
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_if_stmt
+        return visitor.visit_if_stmt(self)
 
 
 class Print(Stmt):
@@ -70,7 +70,7 @@ class Print(Stmt):
         self.expression = expression
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_print_stmt
+        return visitor.visit_print_stmt(self)
 
 
 class Return(Stmt):
@@ -79,7 +79,7 @@ class Return(Stmt):
         self.value = value
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_return_stmt
+        return visitor.visit_return_stmt(self)
 
 
 class Var(Stmt):
@@ -88,7 +88,7 @@ class Var(Stmt):
         self.initializer = initializer
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_var_stmt
+        return visitor.visit_var_stmt(self)
 
 
 class While(Stmt):
@@ -97,6 +97,6 @@ class While(Stmt):
         self.body = body
 
     def accept(self, visitor: StmtVisitor):
-        return visitor.visit_while_stmt
+        return visitor.visit_while_stmt(self)
 
 

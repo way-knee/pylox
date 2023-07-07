@@ -26,7 +26,7 @@ class Assign(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_assign_expr
+        return visitor.visit_assign_expr(self)
 
 
 class Binary(Expr):
@@ -36,7 +36,7 @@ class Binary(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_binary_expr
+        return visitor.visit_binary_expr(self)
 
 
 class Call(Expr):
@@ -46,7 +46,7 @@ class Call(Expr):
         self.arguments = arguments
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_call_expr
+        return visitor.visit_call_expr(self)
 
 
 class Get(Expr):
@@ -55,7 +55,7 @@ class Get(Expr):
         self.name = name
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_get_expr
+        return visitor.visit_get_expr(self)
 
 
 class Grouping(Expr):
@@ -63,7 +63,7 @@ class Grouping(Expr):
         self.expression = expression
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_grouping_expr
+        return visitor.visit_grouping_expr(self)
 
 
 class Literal(Expr):
@@ -71,7 +71,7 @@ class Literal(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_literal_expr
+        return visitor.visit_literal_expr(self)
 
 
 class Logical(Expr):
@@ -81,7 +81,7 @@ class Logical(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_logical_expr
+        return visitor.visit_logical_expr(self)
 
 
 class Set(Expr):
@@ -91,7 +91,7 @@ class Set(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_set_expr
+        return visitor.visit_set_expr(self)
 
 
 class Super(Expr):
@@ -100,7 +100,7 @@ class Super(Expr):
         self.method = method
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_super_expr
+        return visitor.visit_super_expr(self)
 
 
 class This(Expr):
@@ -108,7 +108,7 @@ class This(Expr):
         self.keyword = keyword
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_this_expr
+        return visitor.visit_this_expr(self)
 
 
 class Unary(Expr):
@@ -117,7 +117,7 @@ class Unary(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_unary_expr
+        return visitor.visit_unary_expr(self)
 
 
 class Variable(Expr):
@@ -125,6 +125,6 @@ class Variable(Expr):
         self.name = name
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visit_variable_expr
+        return visitor.visit_variable_expr(self)
 
 
