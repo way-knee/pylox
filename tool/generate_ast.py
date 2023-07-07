@@ -61,7 +61,7 @@ def define_ast(base_name: str, types: list[list]) -> None:
             fields = t[1]
             define_type(lines, base_name, class_name, fields)
             lines.append(f'{TAB}def accept(self, visitor: {base_name}Visitor):\n')
-            lines.append(f'{TAB}{TAB}return visitor.visit{t[0]}{base_name}\n\n\n')
+            lines.append(f'{TAB}{TAB}return visitor.visit_{t[0].lower()}_{base_name.lower()}\n\n\n')
         
         output_file.writelines(lines)
 
@@ -78,7 +78,7 @@ def define_type(lines: list, base_name: str, class_name: str, fields: str) -> No
 def define_visitor(lines: list, base_name: str, types: list[list]):
     lines.append(f'class {base_name}Visitor:\n')
     for t in types:
-        lines.append(f'{TAB}def visit{t[0]}{base_name}({base_name.lower()}): raise NotImplementedError\n')
+        lines.append(f'{TAB}def visit_{t[0].lower()}_{base_name.lower()}({base_name.lower()}): raise NotImplementedError\n')
     lines.append('\n\n')
 
 

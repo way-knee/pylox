@@ -1,18 +1,18 @@
 from token import Token
 
 class ExprVisitor:
-    def visitAssignExpr(expr): raise NotImplementedError
-    def visitBinaryExpr(expr): raise NotImplementedError
-    def visitCallExpr(expr): raise NotImplementedError
-    def visitGetExpr(expr): raise NotImplementedError
-    def visitGroupingExpr(expr): raise NotImplementedError
-    def visitLiteralExpr(expr): raise NotImplementedError
-    def visitLogicalExpr(expr): raise NotImplementedError
-    def visitSetExpr(expr): raise NotImplementedError
-    def visitSuperExpr(expr): raise NotImplementedError
-    def visitThisExpr(expr): raise NotImplementedError
-    def visitUnaryExpr(expr): raise NotImplementedError
-    def visitVariableExpr(expr): raise NotImplementedError
+    def visit_assign_expr(expr): raise NotImplementedError
+    def visit_binary_expr(expr): raise NotImplementedError
+    def visit_call_expr(expr): raise NotImplementedError
+    def visit_get_expr(expr): raise NotImplementedError
+    def visit_grouping_expr(expr): raise NotImplementedError
+    def visit_literal_expr(expr): raise NotImplementedError
+    def visit_logical_expr(expr): raise NotImplementedError
+    def visit_set_expr(expr): raise NotImplementedError
+    def visit_super_expr(expr): raise NotImplementedError
+    def visit_this_expr(expr): raise NotImplementedError
+    def visit_unary_expr(expr): raise NotImplementedError
+    def visit_variable_expr(expr): raise NotImplementedError
 
 
 class Expr:
@@ -26,7 +26,7 @@ class Assign(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitAssignExpr
+        return visitor.visit_assign_expr
 
 
 class Binary(Expr):
@@ -36,7 +36,7 @@ class Binary(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitBinaryExpr
+        return visitor.visit_binary_expr
 
 
 class Call(Expr):
@@ -46,7 +46,7 @@ class Call(Expr):
         self.arguments = arguments
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitCallExpr
+        return visitor.visit_call_expr
 
 
 class Get(Expr):
@@ -55,7 +55,7 @@ class Get(Expr):
         self.name = name
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitGetExpr
+        return visitor.visit_get_expr
 
 
 class Grouping(Expr):
@@ -63,7 +63,7 @@ class Grouping(Expr):
         self.expression = expression
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitGroupingExpr
+        return visitor.visit_grouping_expr
 
 
 class Literal(Expr):
@@ -71,7 +71,7 @@ class Literal(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitLiteralExpr
+        return visitor.visit_literal_expr
 
 
 class Logical(Expr):
@@ -81,7 +81,7 @@ class Logical(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitLogicalExpr
+        return visitor.visit_logical_expr
 
 
 class Set(Expr):
@@ -91,7 +91,7 @@ class Set(Expr):
         self.value = value
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitSetExpr
+        return visitor.visit_set_expr
 
 
 class Super(Expr):
@@ -100,7 +100,7 @@ class Super(Expr):
         self.method = method
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitSuperExpr
+        return visitor.visit_super_expr
 
 
 class This(Expr):
@@ -108,7 +108,7 @@ class This(Expr):
         self.keyword = keyword
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitThisExpr
+        return visitor.visit_this_expr
 
 
 class Unary(Expr):
@@ -117,7 +117,7 @@ class Unary(Expr):
         self.right = right
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitUnaryExpr
+        return visitor.visit_unary_expr
 
 
 class Variable(Expr):
@@ -125,6 +125,6 @@ class Variable(Expr):
         self.name = name
 
     def accept(self, visitor: ExprVisitor):
-        return visitor.visitVariableExpr
+        return visitor.visit_variable_expr
 
 
