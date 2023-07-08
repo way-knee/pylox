@@ -9,16 +9,35 @@ class Parser():
         self.tokens = tokens
         self.current = 0
 
-    def expression():
+    def expression() -> Expr:
         return self.equality()
 
-    def equality():
+    def equality() -> Expr:
         expr = self.comparison();
         while self.match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL):
             operator = self.previous()
             right = self.comparison()
             expr = Binary(expr, operator, right)
         return expr
+
+    def comparison() -> Expr:
+        expr = self.term()
+        while self.match(TokenType.GREATER,
+                         TokenType.GREATER_EQUAL,
+                         TokenType.LESS,
+                         TokenType.LESS_EQUAL):
+            operator = self.previous()
+            right = self.term()
+            expr = Binary(expr, operator, right)
+        return expr
+
+    def term() -> Expr:
+        expr = self.factor()
+        while self.match(TokenType.MINUS, TokenType.PLUS):
+            operator = self.previous()
+            right = self.factor()
+            expr = Binary(expr, operator, right)
+            return expr
 
     def match(*types: TokenType):
         for t in types:
