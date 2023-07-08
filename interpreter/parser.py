@@ -20,3 +20,21 @@ class Parser():
             expr = Binary(expr, operator, right)
         return expr
 
+    def match(*types: TokenType):
+        for t in types:
+            if self.check(t):
+                self.advance()
+                return True
+        return False
+
+    def check(_type: TokenType):
+        if self.is_at_end():
+            return False
+        return self.peek().tokentype == _type
+
+    def advance() -> Token:
+        if not self.is_at_end():
+            current += 1
+        return self.previous()
+
+
