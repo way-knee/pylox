@@ -37,4 +37,13 @@ class Parser():
             current += 1
         return self.previous()
 
+    def is_at_end() -> bool:
+        return self.peek().tokentype == TokenType.EOF
+
+    def peek() -> Token:
+        return self.tokens[self.current]
+
+    def previous() -> Token:
+        return self.tokens[self.current - 1]
+
 
