@@ -91,4 +91,12 @@ class Parser():
     def previous() -> Token:
         return self.tokens[self.current - 1]
 
+    def consume(_type: TokenType, message: str) -> Token:
+        if check(_type):
+            return advance()
+        raise self.error(self.peek(), message)
+
+
+
+
 
