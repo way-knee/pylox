@@ -1,5 +1,6 @@
 import sys
-from scanner import Scanner
+from token import Token
+from tokentype import TokenType
 
 args = sys.argv
 had_error = False
@@ -22,6 +23,7 @@ def run_prompt() -> None:
         had_error = False
 
 def run(source: str) -> None:
+    from scanner import Scanner
     scanner = Scanner(source)
     tokens = scanner.scan_tokens()
     for token in tokens:
@@ -33,4 +35,11 @@ def error(line: int, message: str) -> None:
 def report(line: int, where: str, message: str) -> None:
     print(f'[line {line}] Error{where}: {message}')
     had_error = True
+
+def token_error(token: Token, message: str) -> None:
+    if token.tokentype == TokenType.EOF:
+        self.report(token.line, ' at end', message)
+    else:
+        self.report(token.line, f' at "{token.lexeme}"', message)
+
 
