@@ -2,8 +2,13 @@ from token import Token
 from tokentype import TokenType
 from Expr import *
 from Stmt import *
+from lox import *
 
 class Parser():
+
+    class ParseError(RuntimeError):
+        def __init__(self):
+            super().__init__()
 
     def __init__(self, tokens: list[Token]):
         self.tokens = tokens
@@ -92,9 +97,13 @@ class Parser():
         return self.tokens[self.current - 1]
 
     def consume(_type: TokenType, message: str) -> Token:
-        if check(_type):
-            return advance()
+        if self.check(_type):
+            return self.advance()
         raise self.error(self.peek(), message)
+
+    def error(token: Token, message: str) -> ParseError:
+        token_error(token, message)
+        return ParseError
 
 
 
