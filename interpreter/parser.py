@@ -14,10 +14,10 @@ class Parser():
         self.tokens = tokens
         self.current = 0
 
-    def expression():
+    def expression(self):
         return self.equality()
 
-    def equality():
+    def equality(self):
         expr = self.comparison();
         while self.match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL):
             operator = self.previous()
@@ -25,7 +25,7 @@ class Parser():
             expr = Binary(expr, operator, right)
         return expr
 
-    def comparison():
+    def comparison(self):
         expr = self.term()
         while self.match(TokenType.GREATER,
                          TokenType.GREATER_EQUAL,
@@ -36,7 +36,7 @@ class Parser():
             expr = Binary(expr, operator, right)
         return expr
 
-    def term():
+    def term(self):
         expr = self.factor()
         while self.match(TokenType.MINUS, TokenType.PLUS):
             operator = self.previous()
@@ -44,7 +44,7 @@ class Parser():
             expr = Binary(expr, operator, right)
             return expr
 
-    def factor():
+    def factor(self):
         expr = self.unary()
         while self.match(TokenType.SLASH, TokenType.STAR):
             operator = self.previous()
@@ -52,14 +52,14 @@ class Parser():
             expr = Binary(expr, operator, right)
         return expr
 
-    def unary():
+    def unary(self):
         if self.match(TokenType.BANG, TokenType.MINUS):
             operator = self.previous()
             right = self.unary()
             return Unary(operator, right)
         return self.primary()
 
-    def primary():
+    def primary(self):
         if self.match(TokenType.FALSE): return Literal(False)
         if self.match(TokenType.TRUE): return Literal(True)
         if self.match(TokenType.NIL): return Literal(None)
@@ -69,43 +69,44 @@ class Parser():
             expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression")
             return Grouping(expr)
+        #raise self.error(self.peek(), 'Expected expression')
 
-    def match(*types: TokenType):
+    def match(self, *types: TokenType):
         for t in types:
             if self.check(t):
                 self.advance()
                 return True
         return False
 
-    def check(_type: TokenType):
+    def check(self, _type: TokenType):
         if self.is_at_end():
             return False
         return self.peek().tokentype == _type
 
-    def advance() -> Token:
+    def advance(self) -> Token:
         if not self.is_at_end():
-            current += 1
+            self.current += 1
         return self.previous()
 
-    def is_at_end() -> bool:
+    def is_at_end(self) -> bool:
         return self.peek().tokentype == TokenType.EOF
 
-    def peek() -> Token:
+    def peek(self) -> Token:
         return self.tokens[self.current]
 
-    def previous() -> Token:
+    def previous(self) -> Token:
         return self.tokens[self.current - 1]
 
-    def consume(_type: TokenType, message: str) -> Token:
+    def consume(self, _type: TokenType, message: str) -> Token:
         if self.check(_type):
             return self.advance()
         raise self.error(self.peek(), message)
 
-    def error(token: Token, message: str) -> ParseError:
+    def error(self, token: Token, message: str) -> ParseError:
         token_error(token, message)
         return Parser.ParseError()
 
-    def synchronize() -> None:
+    def synchronize(self) -> None:
         self.advance()
         while not self.is_at_end():
             if self.previous().tokentype == TokenType.SEMICOLON:
@@ -120,6 +121,12 @@ class Parser():
                                            TokenType.RETURN]:
                 return
             self.advance()
+
+    def parse(self):
+        try:
+            return self.expression()
+        except self.error():
+            return None
 
 
 
