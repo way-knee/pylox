@@ -2,14 +2,13 @@ from token import Token
 from tokentype import TokenType
 from Expr import *
 from Stmt import *
-from lox import *
+from scanner import Scanner
+
+
+#class ParseError(RuntimeError):
+#    pass
 
 class Parser():
-
-    class ParseError(RuntimeError):
-        def __init__(self):
-            super().__init__()
-
     def __init__(self, tokens: list[Token]):
         self.tokens = tokens
         self.current = 0
@@ -61,11 +60,18 @@ class Parser():
 
     def primary(self):
         if self.match(TokenType.FALSE): return Literal(False)
-        if self.match(TokenType.TRUE): return Literal(True)
-        if self.match(TokenType.NIL): return Literal(None)
-        if self.match(TokenType.NUMBER, TokenType.STRING):
+        elif self.match(TokenType.TRUE): return Literal(True)
+        elif self.match(TokenType.NIL): return Literal(None)
+        elif self.match(TokenType.NUMBER, TokenType.STRING):
             return Literal(self.previous().literal)
-        if self.match(TokenType.LEFT_PAREN):
+        elif self.match(TokenType.SUPER):
+            keyword = previous()
+            consume(TokenType.DOT, "Expect '.' after 'super'.")
+            method = consume(TokenType.IDENTIFIER, 'Expect superclass method name.')
+            return Super(keyword, method)
+        elif self.match(TokenType.THIS): return This(previous())
+        elif self.match(TokenType.IDENTIFIER): return Variable(previous())
+        elif self.match(TokenType.LEFT_PAREN):
             expr = self.expression()
             self.consume(TokenType.RIGHT_PAREN, "Expect ')' after expression")
             return Grouping(expr)
@@ -102,9 +108,9 @@ class Parser():
             return self.advance()
         raise self.error(self.peek(), message)
 
-    def error(self, token: Token, message: str) -> ParseError:
+    def error(self, token: Token, message: str):
         token_error(token, message)
-        return Parser.ParseError()
+        return RuntimeError()
 
     def synchronize(self) -> None:
         self.advance()
@@ -119,14 +125,19 @@ class Parser():
                                            TokenType.WHILE,
                                            TokenType.PRINT,
                                            TokenType.RETURN]:
-                return
-            self.advance()
+                return self.advance()
 
     def parse(self):
         try:
             return self.expression()
-        except self.error():
-            return None
+        except RuntimeError as e:
+            return error(previous(), 'parse error')
 
 
-
+s = Scanner('3 * 9 - 7;')
+tokens = s.scan_tokens()
+parser = Parser(tokens)
+expression = parser.parse()
+from ast_printer import AstPrinter
+printer = AstPrinter()
+print(printer.print_expr(expression))
